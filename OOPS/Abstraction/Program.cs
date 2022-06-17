@@ -47,12 +47,15 @@ namespace AbstractionDemo
    {
      static void Main(string[] args)
      {
-        Circle c = new Circle(5.0);
-        Console.WriteLine("Area of Circle = {0}", c.area());
-        Square s = new Square(2.5);
-        Console.WriteLine("Area of Square = {0}", s.area());
-        Triangle t = new Triangle(2.0, 5.0);
-        Console.WriteLine("Area of Triangle = {0}", t.area());
+        double c=0.1;
+        double d=0.2;
+        double e=c+d;
+        if(e == 0.7)
+        {
+           Console.WriteLine("hello");
+        }
+        else
+        Console.WriteLine("my ");
      }
    }
 }

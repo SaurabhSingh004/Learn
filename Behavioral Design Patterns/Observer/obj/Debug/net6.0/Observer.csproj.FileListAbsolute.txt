@@ -1,0 +1,15 @@
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\bin\Debug\net6.0\Observer.exe
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\bin\Debug\net6.0\Observer.deps.json
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\bin\Debug\net6.0\Observer.runtimeconfig.json
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\bin\Debug\net6.0\Observer.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\bin\Debug\net6.0\Observer.pdb
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.csproj.AssemblyReference.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.AssemblyInfoInputs.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.AssemblyInfo.cs
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.csproj.CoreCompileInputs.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\refint\Observer.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.pdb
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\Observer.genruntimeconfig.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Observer\obj\Debug\net6.0\ref\Observer.dll

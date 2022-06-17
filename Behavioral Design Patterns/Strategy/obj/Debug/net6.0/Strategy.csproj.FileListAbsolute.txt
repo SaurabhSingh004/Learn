@@ -1,0 +1,15 @@
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\bin\Debug\net6.0\Strategy.exe
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\bin\Debug\net6.0\Strategy.deps.json
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\bin\Debug\net6.0\Strategy.runtimeconfig.json
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\bin\Debug\net6.0\Strategy.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\bin\Debug\net6.0\Strategy.pdb
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.csproj.AssemblyReference.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.AssemblyInfoInputs.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.AssemblyInfo.cs
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.csproj.CoreCompileInputs.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\refint\Strategy.dll
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.pdb
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\Strategy.genruntimeconfig.cache
+C:\Users\Acer\C#\Behavioral Design Patterns\Strategy\obj\Debug\net6.0\ref\Strategy.dll
