@@ -1,114 +1,136 @@
-﻿using System;
-
-class Program
+﻿namespace MediatorDemo
 {
-    static void Main(string[] args)
+    public interface IMediator
     {
-        IMediator mediator = new NetworkMediator();
-        ComputerColleague colleague1 = new ComputerColleague("Eagle");
-        ComputerColleague colleague2 = new ComputerColleague("Ostrich");
-        ComputerColleague colleague3 = new ComputerColleague("Penguin");
-        mediator.Register(colleague1);
-        mediator.Register(colleague2);
-        mediator.Register(colleague3);
-        mediator.Unregister(colleague1);
-        Console.ReadLine();
-
-        /*
-        Output:
-        New Computer register event with name:Ostrich: received @Eagle
-        New Computer register event with name:Penguin: received @Eagle
-        New Computer register event with name:Penguin: received @Ostrich
-        Computer left unregister event with name:Eagle:received @Ostrich
-        Computer left unregister event with name:Eagle:received @Penguin
-        */
+        void Register(Friend friend);
+        void Send(Friend friend, string msg);
     }
-
-    /* Define the contract for communication between Colleagues.
-    Implementation is left to ConcreteMediator */
-    interface IMediator
+    public class ConcreteMediator : IMediator
     {
-        void Register(Colleague colleague);
-        void Unregister(Colleague colleague);
+        List<Friend> participants =new List<Friend>();
+        public void Register(Friend friend)
+        {
+            participants.Add(friend);
+        }
+        public void DisplayDetails()
+        {
+            Console.WriteLine("At present, registered Participants are:");
+            foreach (Friend f in participants)
+            {
+                Console.WriteLine("{0}", f.Name);
+            }
+        }
+        public void Send(Friend friend,string msg)
+        {
+            if(participants.Contains(friend))
+            {
+                Console.WriteLine(String.Format("[{0}] posts: {1} Last message ", friend.Name, msg, DateTime.Now));
+            }
+            else
+            {
+                Console.WriteLine("An outsider named {0} trying to send some messages", friend.Name);
+            }
+
+        }
+
     }
-
-
-    /* Act as a central hub for communication between different Colleagues.
-     Notifies all Concrete Colleagues on the occurrence of an event
-    */
-    class NetworkMediator : IMediator
+    public abstract class Friend
     {
-        public event EventHandler<ColleagueArgs> RegisterNotification = delegate { };
-        public event EventHandler<ColleagueArgs> UnRegisterNotification = delegate { };
-        public NetworkMediator()
-        {
+        IMediator mediator;
+        string name;
+        public string Name{
+            get{
+                return name;
+            }
+            set{
+                name=value;
+            }
         }
-        public void Register(Colleague colleague)
+        public Friend(IMediator mediator)
         {
-            RegisterNotification(this, new ColleagueArgs(colleague));
-            RegisterNotification += colleague.ReceiveRegisterNotification;
-            UnRegisterNotification += colleague.ReceiveUnRegisterNotification;
-        }
-        public void Unregister(Colleague colleague)
-        {
-            RegisterNotification -= colleague.ReceiveRegisterNotification;
-            UnRegisterNotification -= colleague.ReceiveUnRegisterNotification;
-            UnRegisterNotification(this, new ColleagueArgs(colleague));
+            this.mediator=mediator;
         }
     }
-
-    public class ColleagueArgs : EventArgs
+    public class Friend1:Friend
     {
-        public ColleagueArgs(Colleague colleague)
+        IMediator mediator;
+        public Friend1(IMediator mediator,string name):base(mediator)
         {
-            Colleague = colleague;
+            this.Name=name;
+            this.mediator=mediator;
+        }
+        public void Send(string msg)
+        {
+            mediator.Send(this,msg);
         }
 
-        public Colleague Colleague { get; }
     }
 
-    /* Define the contract for notification events from Mediator.
-     Implementation is left to ConcreteColleague
-    */
-    public abstract class Colleague
+    public class Friend2:Friend
     {
-        private String name;
-        public Colleague(String name)
+        IMediator mediator;
+        public Friend2(IMediator mediator,string name):base(mediator)
         {
-            this.name = name;
+            this.Name=name;
+            this.mediator=mediator;
         }
-        public override String ToString()
+        public void Send(string msg)
         {
-            return name;
+            mediator.Send(this,msg);
         }
-        public abstract void ReceiveRegisterNotification(
-            object sender, ColleagueArgs colleagueArgs);
-        public abstract void ReceiveUnRegisterNotification(
-            object sender, ColleagueArgs colleagueArgs);
+
     }
 
-    /* Process notification event raised by other Colleague through Mediator.
-    */
-    class ComputerColleague : Colleague
+    public class Unknown:Friend
     {
-        public ComputerColleague(string name) : base(name)
+        IMediator mediator;
+        public Unknown(IMediator mediator,string name):base(mediator)
         {
+            this.mediator=mediator;
+            this.Name=name;
+        }
+        public void Send(string msg)
+        {
+            mediator.Send(this,msg);
         }
 
-        public override void ReceiveRegisterNotification(
-            object sender, ColleagueArgs colleagueArgs)
-        {
-            Console.WriteLine("New Computer register event with name:" 
-                + colleagueArgs.Colleague + ": received @" + this);
-            // Send further messages to this new Colleague from now onwards
-        }
-
-        public override void ReceiveUnRegisterNotification(
-            object sender, ColleagueArgs colleagueArgs)
-        {
-            Console.WriteLine("Computer left unregister event with name:" 
-                + colleagueArgs.Colleague + ":received @" + this);
-            // Do not send further messages to this Colleague from now onwards
-        }
     }
+    public class Boss:Friend
+    {
+        IMediator mediator;
+        public Boss(IMediator mediator,string name):base(mediator)
+        {
+            this.Name=name;
+            this.mediator=mediator;
+        }
+        public void Send(string msg)
+        {
+            mediator.Send(this,msg);
+        }
+
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            ConcreteMediator mediator=new ConcreteMediator();
+            Friend1 amit=new Friend1(mediator,"Amit");
+            Friend2 raj=new Friend2(mediator,"Raj");
+            Boss manoj=new Boss(mediator,"Manoj");
+            mediator.Register(amit);
+            mediator.Register(raj);
+            mediator.Register(manoj);
+
+            mediator.DisplayDetails();
+            Console.WriteLine("Communication starts among participants...");
+            amit.Send("Hi manoj,can we start with mediator pattern?");
+            manoj.Send("Hi Amit,Yup, we can discuss now.");
+            raj.Send("Please get back to work quickly.");
+            Unknown anonymous=new Unknown(mediator,"anonymous");
+            anonymous.Send("Hello Guys ..");
+        }
+
+    }
+
 }

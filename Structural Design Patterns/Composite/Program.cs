@@ -1,98 +1,82 @@
 namespace CompositeDemo
 {
-    public interface IComponent
+    public interface IEmployee
     {
-        int DisplayPrice();
+        void PrintStructure();
     }
 
-    public class Composite : IComponent
+    public class Employee : IEmployee
     {
-        public string Name;
-        List<IComponent> components = new List<IComponent>();
-
-        public Composite(string name)
+        string dept;
+        string name;
+        public Employee(string name,string dept)
         {
-            this.Name = name;
+            this.name=name;
+            this.dept=dept;
         }
-
-        public void AddComponent(IComponent component)
+        public void PrintStructure()
         {
-            components.Add(component);
+            System.Console.WriteLine($"{name} works in {dept}");
         }
-        public int DisplayPrice()
+    }
+    public class CompositeEmployee : IEmployee
+    {
+        string name;
+        string dept ;
+        List<IEmployee> controls;
+
+        public CompositeEmployee(string name,string dept)
         {
-            Console.WriteLine(Name);
-            int sum=0;
-            foreach (var item in components)
+            this.name=name;
+            this.dept=dept;
+            controls=new List<IEmployee>();
+
+        }
+        public void Add(IEmployee emp)
+        {
+            controls.Add(emp);
+        }
+        public void PrintStructure()
+        {
+            System.Console.WriteLine($"{name} works in {dept}");
+            foreach(IEmployee e in controls)
             {
-                sum=sum+item.DisplayPrice();
-
+                e.PrintStructure();
             }
-            return sum;
+        }
+        public void Remove(IEmployee emp)
+        {
+            controls.Remove(emp);
         }
     }
-    public class Leaf : IComponent
+    public class MainApp
     {
-        public int Price;
-        public string Name ;
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("***Composite Pattern Demo ***");
 
-        public Leaf(string name, int price)
-        {
-            this.Price = price;
-            this.Name = name;
-        }
-        public int DisplayPrice()
-        {
-            Console.WriteLine(Name +" : "+ Price);
-            return Price;
+            CompositeEmployee principle=new CompositeEmployee("Dr. X","Planning-Supervising-Managing");
+            CompositeEmployee hodmaths=new CompositeEmployee("Dr. MathsX","Mathematics");
+            CompositeEmployee hodscience=new CompositeEmployee("Dr. ScienceX","Science");
+            Employee emp1=new Employee("Employee1","Mathematics");
+            Employee emp2=new Employee("Employee2","Mathematics");
+            Employee emp3=new Employee("Employee3","Science");
+            Employee emp4=new Employee("Employee4","Science");
+            Employee emp5=new Employee("Employee5","Science");
+
+            principle.Add(hodmaths);
+            principle.Add(hodscience);
+
+            hodmaths.Add(emp1);
+            hodmaths.Add(emp2);
+            hodscience.Add(emp3);
+            hodscience.Add(emp4);
+            hodscience.Add(emp5);
+            
+            hodscience.PrintStructure();
         }
     }
 
-    public class Program
-    {
-        static void Main(string[] args)
-        {
-            //Creating Leaf Objects
-            IComponent hardDisk = new Leaf("Hard Disk", 2000);
-            IComponent ram = new Leaf("RAM", 3000);
-            IComponent cpu = new Leaf("CPU", 2000);
-            IComponent mouse = new Leaf("Mouse", 2000);
-            IComponent keyboard = new Leaf("Keyboard", 2000);
-
-            //Creating composite objects
-            Composite motherBoard = new Composite("motherboard");
-            Composite cabinet = new Composite("Cabinet");
-            Composite peripherals = new Composite("Peripherals");
-            Composite computer = new Composite("Computer");
-
-            motherBoard.AddComponent(cpu);
-            motherBoard.AddComponent(ram);
-
-            //Ading mother board and hard disk in Cabinet
-            cabinet.AddComponent(motherBoard);
-            cabinet.AddComponent(hardDisk);
-
-            //Ading mouse and keyborad in peripherals
-            peripherals.AddComponent(mouse);
-            peripherals.AddComponent(keyboard);
-
-            //Ading cabinet and peripherals in computer
-            computer.AddComponent(cabinet);
-            computer.AddComponent(peripherals);
-
-            //To display the Price of Computer
-            
-            Console.WriteLine("Price of cabinet component is: ",cabinet.DisplayPrice());
-            
-
-            //To display the Price of Keyboard
-            // keyboard.DisplayPrice();
-            // Console.WriteLine();
-
-            //To display the Price of Cabinet
-            // cabinet.DisplayPrice();
-
-            Console.Read();
-        }
-    }
+    
+    
 }

@@ -1,105 +1,68 @@
 ﻿using System;
 namespace BridgeDesignPattern
 {
-    public interface LEDTV
+    public interface IState
     {
-         string SwitchOn();
-         void SwitchOff();
-         void SetChannel(int channelNumber);
+         void MoveState();
     }
-    public class SonyLedTv : LEDTV
+    public class OnState : IState
     {
-        public string SwitchOn()
+        public void MoveState()
         {
-            Console.WriteLine("Turning ON : Sony TV");
-            return "mumu";
+            Console.WriteLine("Turning ON State");
+           
         }
-        public void SwitchOff()
-        {
-            Console.WriteLine("Turning OFF : Sony TV");
-        }
-
-        public void SetChannel(int channelNumber)
-        {
-            Console.WriteLine("Setting channel Number " + channelNumber + " on Sony TV");
-        }
+       
     }
 
-    public class SamsungLedTv : LEDTV
+    public class OffState : IState
     {
-        public string SwitchOn()
+        public void MoveState()
         {
-            Console.WriteLine("Turning ON : Samsung TV");
-            return "switchedon";
+            Console.WriteLine("Turning OFF : state");
+            
         }
-        public void SwitchOff()
-        {
-            Console.WriteLine("Turning OFF : Samsung TV");
-        }
-
-        public void SetChannel(int channelNumber)
-        {
-            Console.WriteLine("Setting channel Number " + channelNumber + " on Samsung TV");
-        }
+        
     }
 
-    public abstract class AbstractRemoteControl
+    public abstract class ElectronicGoods
     {
-        protected LEDTV ledTv;
+        protected IState state;
 
-        protected AbstractRemoteControl(LEDTV ledTv)
+        protected ElectronicGoods(IState state)
         {
-         //   Console.WriteLine(this.ledTv+" helloabstract");
-            this.ledTv = ledTv;
+            this.state = state;
         }
 
-        public abstract void SwitchOn();
-        public abstract void SwitchOff();
-        public abstract void SetChannel(int channelNumber);
+        public abstract void MoveState();
     }
 
-    public class SamsungRemoteControl : AbstractRemoteControl
+    public class SamsungRemoteControl : ElectronicGoods
     {
-        public SamsungRemoteControl(LEDTV ledTv) : base(ledTv)
+        public SamsungRemoteControl(IState state) : base(state)
         {
         }
         
-        public override void SwitchOn()
+        public override void MoveState()
         {   
-            ledTv.SwitchOn();
+            System.Console.WriteLine("Samsung Remote Control Functioning at: ");
+            state.MoveState();
         }
 
-        public override void SwitchOff()
-        {
-            ledTv.SwitchOff();
-        }
 
-        public override void SetChannel(int channelNumber)
-        {
-            ledTv.SetChannel(channelNumber);
-        }
     }
 
-    public class SonyRemoteControl : AbstractRemoteControl
+    public class SonyRemoteControl : ElectronicGoods
     {
-        public SonyRemoteControl(LEDTV ledTv) : base(ledTv)
+        public SonyRemoteControl(IState state) : base(state)
         {
             
         }
 
-        public override void SwitchOn()
-        {
-            ledTv.SwitchOn();
-        }
-
-        public override void SwitchOff()
-        {
-            ledTv.SwitchOff();
-        }
-
-        public override void SetChannel(int channelNumber)
-        {
-            ledTv.SetChannel(channelNumber);
+        public override void MoveState()
+        {   
+            System.Console.WriteLine("Sony Remote Control Functioning at: ");
+            state.MoveState();
         }
     }
     
@@ -107,19 +70,10 @@ namespace BridgeDesignPattern
     {
         static void Main(string[] args)
         {
-            SonyRemoteControl sonyRemoteControl = new SonyRemoteControl(new SonyLedTv());
-            sonyRemoteControl.SwitchOn();
-            sonyRemoteControl.SetChannel(101);
-            sonyRemoteControl.SwitchOff();
-            
-            Console.WriteLine();
-
-            SamsungRemoteControl samsungRemoteControl = new SamsungRemoteControl(new SonyLedTv());
-            samsungRemoteControl.SwitchOn();
-            samsungRemoteControl.SetChannel(202);
-            samsungRemoteControl.SwitchOff();
-            
-            Console.ReadKey();
+            SonyRemoteControl sony=new SonyRemoteControl(new OnState());
+            sony.MoveState();
+            SamsungRemoteControl Samsung=new SamsungRemoteControl(new OffState());
+            sony.MoveState();
         }
     }
 }

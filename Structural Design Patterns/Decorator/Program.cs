@@ -1,115 +1,77 @@
-﻿using System;
-namespace DecoratorDesignPattern
+﻿namespace DecoratorDemo
 {
-    public interface ICar
+    abstract class IBuildHouse
     {
-        ICar ManufactureCar();
+        public abstract void MakeHouse();
     }
 
-    public class BMWCar : ICar
+    class ConcreteComponent : IBuildHouse
     {
-        private string CarName = "BMW";
-        public string CarBody;
-        public string CarDoor;
-        public string CarWheels;
-        public string Engine;
-
-        public override string ToString()
+        public override void MakeHouse()
         {
-            return "BMWCar [CarName=" + CarName + ", CarBody=" + CarBody + ", CarDoor=" + CarDoor + ", CarWheels="
-                            + CarWheels + ", Engine=" + Engine + "]";
-        }
-
-        public ICar ManufactureCar()
-        {
-            CarBody = "carbon fiber material";
-            CarDoor = "4 car doors";
-            CarWheels = "4 MRF wheels";
-            return this;
-        }
-    }
-    
-    public abstract class CarDecorator : ICar
-    {
-        protected ICar car;
-        public CarDecorator(ICar car)
-        {
-            this.car = car;
-        }
-
-        public virtual ICar ManufactureCar()
-        {
-            return car.ManufactureCar();
+            System.Console.WriteLine("Concrete Builder .. House Build Complete ");
         }
     }
 
-    public class DieselCarDecorator : CarDecorator
+    abstract class AbstractDecorator : IBuildHouse
     {
-        public DieselCarDecorator(ICar car) : base(car)
+        protected IBuildHouse cc;
+        public void setComponent(IBuildHouse com)
         {
+            cc=com;
         }
-
-        public override ICar ManufactureCar()
+        public override void MakeHouse()
         {
-            car.ManufactureCar();
-            AddEngine(car);
-            return car;
-        }
-
-        public void AddEngine(ICar car)
-        {
-            if (car is BMWCar)
+            if(cc!=null)
             {
-                BMWCar BMWCar = (BMWCar)car;
-                BMWCar.Engine = "Diesel Engine";
-                Console.WriteLine("DieselCarDecorator added Diesel Engine to the Car : " + car);
+                cc.MakeHouse();
             }
         }
     }
-
-    class PetrolCarDecorator : CarDecorator
+    class ConcreteDecoratorEx1: AbstractDecorator
     {
-        public PetrolCarDecorator(ICar car) : base(car)
-        {
-        }
-
-        public override ICar ManufactureCar()
-        {
-            car.ManufactureCar();
-            AddEngine(car);
-            return car;
-        }
-
-        public void AddEngine(ICar car)
-        {
-            if (car is BMWCar)
+        public override void MakeHouse()
             {
-                BMWCar BMWCar = (BMWCar)car;
-                BMWCar.Engine = "Petrol Engine";
-                Console.WriteLine("PetrolCarDecorator added Petrol Engine to the Car : " + car);
+                base.MakeHouse();
+                Console.WriteLine("***Using a decorator***");
+                
+                //Decorating now.
+                AddFloor();
             }
-        }
+            private void AddFloor()
+            {
+                Console.WriteLine("I am making an additional floor on top ");
+            }
     }
-
-    class Program
+    class ConcreteDecoratorEx2: AbstractDecorator
     {
-        static void Main(string[] args)
+        public override void MakeHouse()
+            {
+                base.MakeHouse();
+                Console.WriteLine("***Using a decorator***");
+                //Decorating now.
+                PaintHouse();
+            }
+            private void PaintHouse()
+            {
+                Console.WriteLine("I am painting the house");
+            }
+    }
+    public class MainApp
+    {
+        public static void Main(string[] arg)
         {
-            ICar bmwCar1 = new BMWCar();
-            bmwCar1.ManufactureCar();
-            Console.WriteLine(bmwCar1 + "\n");
+            Console.WriteLine("***Decorator pattern Demo***\n");
+            ConcreteComponent cc = new ConcreteComponent();
+           
+            ConcreteDecoratorEx1 ex1=new ConcreteDecoratorEx1();
+            ex1.setComponent(cc);
+            ex1.MakeHouse();
 
-            DieselCarDecorator carWithDieselEngine = new DieselCarDecorator(bmwCar1);
-            carWithDieselEngine.ManufactureCar();
-
-            Console.WriteLine();
-
-            ICar bmwCar2 = new BMWCar();
-
-            PetrolCarDecorator carWithPetrolEngine = new PetrolCarDecorator(bmwCar2);
-            carWithPetrolEngine.ManufactureCar();
-
-            Console.ReadKey();
+            // ConcreteDecoratorEx2 ex2=new ConcreteDecoratorEx2();
+            // ex2.setComponent(cc);
+            // ex2.MakeHouse();
+            
         }
     }
 }
